@@ -17,6 +17,7 @@ mongoose
 
 const { addUser, getUser, removeUser } = require('./helpers.js');
 const Room = require('./models/Room.js');
+const Message = require('./models/Message.js');
 
 io.on('connection', (socket) => {
     console.log(socket.id + ' connected');
@@ -45,18 +46,28 @@ io.on('connection', (socket) => {
             socket.join(roomID);
             console.log(user.username + ' joined');
         }
+        Message.find({ roomID })
+            .then((messages) => {
+                io.emit('messages-loaded', messages);
+            })
+            .catch((err) => console.log(err));
     });
 
     socket.on('send-message', (message, roomID, callback) => {
         const user = getUser(socket.id);
         const receivedMessage = {
-            name: user.username,
+            username: user.username,
             userID: user.userID,
             roomID,
             message,
         };
-        console.log(receivedMessage);
-        io.to(roomID).emit('receive-message', receivedMessage);
+        const newMessage = new Message(receivedMessage);
+        newMessage
+            .save()
+            .then((message) => {
+                io.to(roomID).emit('receive-message', message);
+            })
+            .catch((err) => console.log(err));
         callback();
     });
 

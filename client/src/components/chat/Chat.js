@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
+import io from 'socket.io-client';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
-import io from 'socket.io-client';
+import Messages from './messages/Messages.js';
+import '../../css/chat.css';
 
 let socket;
 
@@ -18,12 +20,19 @@ export default function Chat() {
         if (username && userID)
             socket.emit('join', { roomID, username, userID });
     }, []);
+
     useEffect(() => {
         socket.on('receive-message', (receivedMessage) => {
-            console.log(receivedMessage);
             setMessages([...messages, receivedMessage]);
         });
     }, [messages]);
+
+    useEffect(() => {
+        socket.on('messages-loaded', (messages) => {
+            setMessages(messages);
+        });
+    }, []);
+
     const sendMessage = (e) => {
         e.preventDefault();
         if (message) {
@@ -33,11 +42,9 @@ export default function Chat() {
     };
     return (
         <div className="container">
-            <h1>
-                Room {roomID} {roomName}
-            </h1>
-            <h1>Chat {JSON.stringify(user)}</h1>
-            <pre>{JSON.stringify(messages, null, '\t')} </pre>
+            <h1>Roomname: {roomName}</h1>
+            <h2>{user ? `${user.name}'s Account` : 'Not Login yet'}</h2>
+            <Messages messages={messages} currentUser={user ? user.id : ''} />
             <form>
                 <input
                     type="text"
