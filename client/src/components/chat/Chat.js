@@ -8,6 +8,7 @@ let socket;
 export default function Chat() {
     const { user, setUser } = useContext(UserContext);
     const [message, setMessage] = useState('');
+    const [messages, setMessages] = useState([]);
     const { roomID, roomName } = useParams();
     const ENDPOINT = 'localhost:5000';
     useEffect(() => {
@@ -17,6 +18,12 @@ export default function Chat() {
         if (username && userID)
             socket.emit('join', { roomID, username, userID });
     }, []);
+    useEffect(() => {
+        socket.on('receive-message', (receivedMessage) => {
+            console.log(receivedMessage);
+            setMessages([...messages, receivedMessage]);
+        });
+    }, [messages]);
     const sendMessage = (e) => {
         e.preventDefault();
         if (message) {
@@ -30,6 +37,7 @@ export default function Chat() {
                 Room {roomID} {roomName}
             </h1>
             <h1>Chat {JSON.stringify(user)}</h1>
+            <pre>{JSON.stringify(messages, null, '\t')} </pre>
             <form>
                 <input
                     type="text"
