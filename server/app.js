@@ -9,9 +9,9 @@ const { addUser } = require('./helpers.js');
 
 io.on('connection', (socket) => {
     console.log(socket.id + ' connected');
-    socket.on('create-room', room => {
+    socket.on('create-room', (room) => {
         console.log(room + ' is created');
-    })
+    });
 
     socket.on('join', ({ roomID, userID, username }) => {
         const { error, user } = addUser(socket.id, roomID, userID, username);
@@ -20,10 +20,9 @@ io.on('connection', (socket) => {
         } else {
             console.log(user.username + ' joined');
         }
-    })
-})
-
+    });
+});
 
 http.listen(PORT, () => {
     console.log(`listening on port ${PORT}`);
-})
+});

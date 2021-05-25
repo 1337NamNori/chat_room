@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
 import io from 'socket.io-client';
 
@@ -7,19 +7,40 @@ let socket;
 
 export default function Chat() {
     const { user, setUser } = useContext(UserContext);
-    let { roomID, roomName } = useParams();
+    const [message, setMessage] = useState('');
+    const { roomID, roomName } = useParams();
     const ENDPOINT = 'localhost:5000';
     useEffect(() => {
         socket = io(ENDPOINT);
-        socket.emit('join', { roomID, username: user.name, userID: user.id });
-    }, [])
+        const username = user ? user.name : '';
+        const userID = user ? user.id : '';
+        if (username && userID)
+            socket.emit('join', { roomID, username, userID });
+    }, []);
+    const sendMessage = (e) => {
+        e.preventDefault();
+        if (message) {
+            console.log(message);
+            socket.emit('send-message', message);
+        }
+    };
     return (
         <div className="container">
-            <h1>Room {roomID} {roomName}</h1>
+            <h1>
+                Room {roomID} {roomName}
+            </h1>
             <h1>Chat {JSON.stringify(user)}</h1>
-            <Link to={'/'}>
-                <button className="btn">go to home</button>
-            </Link>
+            <form>
+                <input
+                    type="text"
+                    name="message"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                />
+                <button type="submit" onClick={sendMessage} className="btn">
+                    SEND
+                </button>
+            </form>
         </div>
-    )
+    );
 }

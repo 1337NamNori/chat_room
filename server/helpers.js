@@ -21,7 +21,10 @@ const removeUser = (socketID) => {
     }
 };
 
+const getUser = (socketID) => users.find((user) => user.socketID === socketID);
+
 module.exports = {
     addUser,
     removeUser,
+    getUser,
 };
