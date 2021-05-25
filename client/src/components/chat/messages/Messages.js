@@ -1,10 +1,10 @@
 import React from 'react';
+import STB from 'react-scroll-to-bottom';
 import Message from '../message/Message.js';
 
 export default function Messages({ messages, currentUser }) {
-    // console.log(messages, currentUser)
     return (
-        <div>
+        <STB className="imessage">
             {messages.map((message) => (
                 <Message
                     key={message._id}
@@ -12,6 +12,6 @@ export default function Messages({ messages, currentUser }) {
                     currentUser={currentUser}
                 />
             ))}
-        </div>
+        </STB>
     );
 }

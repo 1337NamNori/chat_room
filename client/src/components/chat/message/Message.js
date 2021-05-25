@@ -8,7 +8,7 @@ export default function Message({ message, currentUser }) {
     const isCurrentUser = currentUser === message.userID;
     console.log(isCurrentUser);
     return (
-        <div>
+        <div className="imessage-item">
             {!isCurrentUser ? (
                 <IncomingMsg message={message} />
             ) : (

@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
 import Messages from './messages/Messages.js';
+import Input from './input/Input.js';
 import '../../css/chat.css';
 
 let socket;
@@ -42,20 +43,14 @@ export default function Chat() {
     };
     return (
         <div className="container">
-            <h1>Roomname: {roomName}</h1>
-            <h2>{user ? `${user.name}'s Account` : 'Not Login yet'}</h2>
+            <h2>Roomname: {roomName}</h2>
+            <h4>{user ? `${user.name}'s Account` : 'Not Login yet'}</h4>
             <Messages messages={messages} currentUser={user ? user.id : ''} />
-            <form>
-                <input
-                    type="text"
-                    name="message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                />
-                <button type="submit" onClick={sendMessage} className="btn">
-                    SEND
-                </button>
-            </form>
+            <Input
+                message={message}
+                setMessage={setMessage}
+                sendMessage={sendMessage}
+            />
         </div>
     );
 }
