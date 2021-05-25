@@ -21,7 +21,7 @@ export default function Chat() {
         e.preventDefault();
         if (message) {
             console.log(message);
-            socket.emit('send-message', message);
+            socket.emit('send-message', message, roomID, () => setMessage(''));
         }
     };
     return (
