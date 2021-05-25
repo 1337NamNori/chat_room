@@ -4,19 +4,27 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "beautiful": "lint-staged --allow-empty",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/app.js",
-    "dev": "nodemon server/app.js"
+    "dev": "nodemon server/app.js",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "lint-staged": {
+    "src/**/*.{js,json}": "prettier --single-quote --trailing-comma all --tab-width 4 --write"
+  },
   "dependencies": {
     "express": "^4.17.1",
     "mongoose": "^5.12.10",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.0"
   }
 }
