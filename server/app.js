@@ -16,11 +16,25 @@ mongoose
     .catch((err) => console.log(err));
 
 const { addUser, getUser, removeUser } = require('./helpers.js');
+const Room = require('./models/Room.js');
 
 io.on('connection', (socket) => {
     console.log(socket.id + ' connected');
-    socket.on('create-room', (room) => {
-        console.log(room + ' is created');
+
+    Room.find({})
+        .then((rooms) => {
+            io.emit('rooms-loaded', rooms);
+        })
+        .catch((err) => console.log(err));
+
+    socket.on('create-room', (name) => {
+        console.log(name + ' is created');
+        const room = new Room({ name });
+        room.save()
+            .then((room) => {
+                io.emit('room-created', room);
+            })
+            .catch((err) => console.log(err));
     });
 
     socket.on('join', ({ roomID, userID, username }) => {

@@ -8,7 +8,10 @@ let socket;
 
 export default function Home() {
     const [room, setRoom] = useState('');
+    const [rooms, setRooms] = useState([]);
+
     const ENDPOINT = 'localhost:5000';
+
     useEffect(() => {
         socket = io(ENDPOINT);
         return () => {
@@ -17,17 +20,19 @@ export default function Home() {
         };
     }, [ENDPOINT]);
 
+    useEffect(() => {
+        socket.on('room-created', (room) => {
+            setRooms([...rooms, room]);
+        });
+    }, [rooms]);
+
+    useEffect(() => {
+        socket.on('rooms-loaded', (rooms) => {
+            setRooms(rooms);
+        });
+    }, []);
+
     const { user, setUser } = useContext(UserContext);
-    const rooms = [
-        {
-            name: 'room1',
-            _id: '1',
-        },
-        {
-            name: 'room2',
-            _id: '2',
-        },
-    ];
     const handleSubmit = (e) => {
         e.preventDefault();
         socket.emit('create-room', room);
@@ -101,10 +106,6 @@ export default function Home() {
                     <RoomList rooms={rooms}></RoomList>
                 </div>
             </div>
-
-            <Link to={'/chat'}>
-                <button className="btn"> Go to chat</button>
-            </Link>
         </div>
     );
 }
