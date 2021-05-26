@@ -16,8 +16,8 @@ export default function Chat() {
     const ENDPOINT = 'localhost:5000';
     useEffect(() => {
         socket = io(ENDPOINT);
-        const username = user ? user.name : '';
-        const userID = user ? user.id : '';
+        const username = user ? user.username : '';
+        const userID = user ? user._id : '';
         if (username && userID)
             socket.emit('join', { roomID, username, userID });
     }, []);
@@ -37,15 +37,14 @@ export default function Chat() {
     const sendMessage = (e) => {
         e.preventDefault();
         if (message) {
-            console.log(message);
             socket.emit('send-message', message, roomID, () => setMessage(''));
         }
     };
     return (
         <div className="container">
             <h2>Roomname: {roomName}</h2>
-            <h4>{user ? `${user.name}'s Account` : 'Not Login yet'}</h4>
-            <Messages messages={messages} currentUser={user ? user.id : ''} />
+            <h4>{user ? `${user.username}'s Account` : 'Not Login yet'}</h4>
+            <Messages messages={messages} currentUser={user ? user._id : ''} />
             <Input
                 message={message}
                 setMessage={setMessage}

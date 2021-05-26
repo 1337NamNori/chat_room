@@ -6,24 +6,20 @@ export default function Navbar() {
             <nav>
                 <div className="nav-wrapper container">
                     <a href="/" className="brand-logo">
-                        Logo
+                        ChatRoom
                     </a>
-                    <a
-                        href="#"
-                        data-target="mobile-demo"
-                        className="sidenav-trigger"
-                    >
+                    <a data-target="mobile-demo" className="sidenav-trigger">
                         <i className="material-icons">menu</i>
                     </a>
                     <ul className="right hide-on-med-and-down">
                         <li>
-                            <a href="#">Login</a>
+                            <a href="/login">Login</a>
                         </li>
                         <li>
-                            <a href="#">Signup</a>
+                            <a href="/signup">Signup</a>
                         </li>
                         <li>
-                            <a href="#">Logout</a>
+                            <a href="/logout">Logout</a>
                         </li>
                     </ul>
                 </div>
@@ -31,13 +27,13 @@ export default function Navbar() {
 
             <ul className="sidenav" id="mobile-demo">
                 <li>
-                    <a href="#">Login</a>
+                    <a href="/login">Login</a>
                 </li>
                 <li>
-                    <a href="#">Signup</a>
+                    <a href="/signup">Signup</a>
                 </li>
                 <li>
-                    <a href="#">Logout</a>
+                    <a href="/logout">Logout</a>
                 </li>
             </ul>
         </div>

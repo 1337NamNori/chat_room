@@ -1,24 +1,47 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const app = express();
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+
+// Express Middlewares
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(
+    cors({
+        origin: 'http://localhost:3000',
+        credentials: true,
+        optionsSuccessStatus: 200,
+    }),
+);
+
+// Create Server
 const http = require('http').createServer(app);
+
+// Socket.io define
 const io = require('socket.io')(http);
 
+// Port: 5000
 const PORT = process.env.PORT || 5000;
-const mongoURL = `mongodb+srv://namnori:chatroom123@cluster0.gwx0l.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
-mongoose
-    .connect(mongoURL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => console.log('Database is connected'))
-    .catch((err) => console.log(err));
+// Routes
+const authRouter = require('./routes/auth.js');
 
+app.use('/', authRouter);
+
+// Database
+const db = require('./config/db/index.js');
+db.connect();
+
+// Helper Functions
 const { addUser, getUser, removeUser } = require('./helpers.js');
+
+// Import Models
 const Room = require('./models/Room.js');
 const Message = require('./models/Message.js');
 
+// Socket.io Logic
 io.on('connection', (socket) => {
     console.log(socket.id + ' connected');
 
@@ -55,6 +78,7 @@ io.on('connection', (socket) => {
 
     socket.on('send-message', (message, roomID, callback) => {
         const user = getUser(socket.id);
+        if (!user) callback();
         const receivedMessage = {
             username: user.username,
             userID: user.userID,
@@ -76,6 +100,7 @@ io.on('connection', (socket) => {
     });
 });
 
+// Start server
 http.listen(PORT, () => {
     console.log(`listening on port ${PORT}`);
 });

@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
 import RoomList from './RoomList';
 import io from 'socket.io-client';
@@ -64,7 +63,7 @@ export default function Home() {
                     <div className="card blue-grey darken-1">
                         <div className="card-content white-text">
                             <span className="card-title">
-                                Welcome {user ? user.name : ''}
+                                Welcome {user ? user.username : ''}
                             </span>
                             <div className="row">
                                 <form
@@ -93,12 +92,8 @@ export default function Home() {
                             </div>
                         </div>
                         <div className="card-action">
-                            <a href="#" onClick={setAsJohn}>
-                                Set as John
-                            </a>
-                            <a href="#" onClick={setAsTom}>
-                                Set as Tom
-                            </a>
+                            <a onClick={setAsJohn}>Set as John</a>
+                            <a onClick={setAsTom}>Set as Tom</a>
                         </div>
                     </div>
                 </div>

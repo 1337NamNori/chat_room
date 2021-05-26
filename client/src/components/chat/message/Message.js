@@ -3,10 +3,7 @@ import IncomingMsg from './IncomingMsg.js';
 import OutgoingMsg from './OutgoingMsg.js';
 
 export default function Message({ message, currentUser }) {
-    console.log(message.userID);
-    console.log(currentUser);
     const isCurrentUser = currentUser === message.userID;
-    console.log(isCurrentUser);
     return (
         <div className="imessage-item">
             {!isCurrentUser ? (
