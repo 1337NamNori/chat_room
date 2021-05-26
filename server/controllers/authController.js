@@ -24,6 +24,14 @@ const alertError = (err) => {
         }
         return errorMessage;
     }
+    if (err.message === 'incorrect username') {
+        errorMessage.username = 'This username is not exist';
+        return errorMessage;
+    }
+    if (err.message === 'incorrect password') {
+        errorMessage.password = 'This password is incorrect';
+        return errorMessage;
+    }
     if (err.message.includes('User validation failed')) {
         Object.values(err.errors).forEach(({ properties }) => {
             errorMessage[properties.path] = properties.message;
@@ -34,9 +42,20 @@ const alertError = (err) => {
 };
 
 module.exports = {
-    login(req, res, next) {
-        console.log(req.body);
-        res.send('login');
+    async login(req, res, next) {
+        const { username, password } = req.body;
+        try {
+            const user = await User.login(username, password);
+            const token = createJWT(user._id);
+            res.cookie('jwt', token, {
+                httpOnly: true,
+                maxAge: maxAge * 1000,
+            });
+            res.status(201).json({ user });
+        } catch (err) {
+            const errors = alertError(err);
+            res.status(400).json({ errors });
+        }
     },
     async signup(req, res, next) {
         const { username, email, password } = req.body;

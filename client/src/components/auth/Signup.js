@@ -17,7 +17,6 @@ export default function Signup() {
         setUsernameError('');
         setEmailError('');
         setPasswordError('');
-        console.log(username, password, email);
         try {
             const res = await fetch('http://localhost:5000/signup', {
                 method: 'POST',
@@ -26,7 +25,6 @@ export default function Signup() {
                 headers: { 'Content-Type': 'application/json' },
             });
             const data = await res.json();
-            console.log(data);
             if (data.errors) {
                 setUsernameError(data.errors.username);
                 setEmailError(data.errors.email);
