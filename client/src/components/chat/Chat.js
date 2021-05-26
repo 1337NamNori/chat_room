@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
 import Messages from './messages/Messages.js';
 import Input from './input/Input.js';
@@ -40,6 +40,9 @@ export default function Chat() {
             socket.emit('send-message', message, roomID, () => setMessage(''));
         }
     };
+    if (!user) {
+        return <Redirect to="/login" />;
+    }
     return (
         <div className="container">
             <h2>Roomname: {roomName}</h2>

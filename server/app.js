@@ -52,7 +52,6 @@ io.on('connection', (socket) => {
         .catch((err) => console.log(err));
 
     socket.on('create-room', (name) => {
-        console.log(name + ' is created');
         const room = new Room({ name });
         room.save()
             .then((room) => {
@@ -67,7 +66,6 @@ io.on('connection', (socket) => {
             console.log(error);
         } else {
             socket.join(roomID);
-            console.log(user.username + ' joined');
         }
         Message.find({ roomID })
             .then((messages) => {

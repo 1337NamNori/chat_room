@@ -37,7 +37,6 @@ const alertError = (err) => {
             errorMessage[properties.path] = properties.message;
         });
     }
-    console.log(errorMessage);
     return errorMessage;
 };
 
@@ -72,7 +71,25 @@ module.exports = {
             res.status(400).json({ errors });
         }
     },
+    verify(req, res, next) {
+        const token = req.cookies.jwt;
+        if (token) {
+            jwt.verify(token, 'secret chatroom', async (err, decodedToken) => {
+                if (err) {
+                    console.log(err);
+                    next();
+                } else {
+                    const user = await User.findById(decodedToken.id);
+                    res.json({ user });
+                    next();
+                }
+            });
+        } else {
+            next();
+        }
+    },
     logout(req, res, next) {
-        res.send('logout');
+        res.cookie('jwt', '', { maxAge: 1 });
+        res.status(200).json({ logout: true });
     },
 };

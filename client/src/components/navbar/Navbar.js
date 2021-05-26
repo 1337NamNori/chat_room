@@ -1,6 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { UserContext } from '../../UserContext.js';
+import SignedInMenu from './SignedInMenu';
+import SignedOutMenu from './SignedOutMenu';
 
 export default function Navbar() {
+    const { user, setUser } = useContext(UserContext);
+
+    const logout = async () => {
+        try {
+            const res = await fetch('http://localhost:5000/logout', {
+                credentials: 'include',
+            });
+            const data = await res.json();
+            if (data.logout) setUser(null);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const menu = user ? <SignedInMenu logout={logout} /> : <SignedOutMenu />;
+
     return (
         <div>
             <nav>
@@ -8,33 +27,19 @@ export default function Navbar() {
                     <a href="/" className="brand-logo">
                         ChatRoom
                     </a>
-                    <a data-target="mobile-demo" className="sidenav-trigger">
+                    <a
+                        href="#"
+                        data-target="mobile-demo"
+                        className="sidenav-trigger"
+                    >
                         <i className="material-icons">menu</i>
                     </a>
-                    <ul className="right hide-on-med-and-down">
-                        <li>
-                            <a href="/login">Login</a>
-                        </li>
-                        <li>
-                            <a href="/signup">Signup</a>
-                        </li>
-                        <li>
-                            <a href="/logout">Logout</a>
-                        </li>
-                    </ul>
+                    <ul className="right hide-on-med-and-down">{menu}</ul>
                 </div>
             </nav>
 
             <ul className="sidenav" id="mobile-demo">
-                <li>
-                    <a href="/login">Login</a>
-                </li>
-                <li>
-                    <a href="/signup">Signup</a>
-                </li>
-                <li>
-                    <a href="/logout">Logout</a>
-                </li>
+                {menu}
             </ul>
         </div>
     );

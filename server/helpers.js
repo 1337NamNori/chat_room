@@ -9,7 +9,6 @@ const addUser = (socketID, roomID, userID, username) => {
     } else {
         const user = { socketID, roomID, userID, username };
         users.push(user);
-        console.log(users);
         return { user };
     }
 };
