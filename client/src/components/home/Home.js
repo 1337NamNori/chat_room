@@ -10,7 +10,7 @@ export default function Home() {
     const [room, setRoom] = useState('');
     const [rooms, setRooms] = useState([]);
 
-    const ENDPOINT = '/';
+    const ENDPOINT = 'http://localhost:5000/';
 
     useEffect(() => {
         socket = io(ENDPOINT);

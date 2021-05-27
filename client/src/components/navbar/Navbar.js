@@ -8,7 +8,7 @@ export default function Navbar() {
 
     const logout = async () => {
         try {
-            const res = await fetch('/auth/logout', {
+            const res = await fetch('http://localhost:5000/auth/logout', {
                 method: 'POST',
                 // credentials: 'include',
             });

@@ -13,7 +13,7 @@ function App() {
     useEffect(() => {
         const verify = async () => {
             try {
-                const res = await fetch('/auth/verify', {
+                const res = await fetch('http://localhost:5000/auth/verify', {
                     method: 'POST',
                     // credentials: 'include',
                 });
