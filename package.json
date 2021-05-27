@@ -7,8 +7,8 @@
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "beautiful": "lint-staged --allow-empty",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server/app.js",
-    "dev": "nodemon server/app.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "prepare": "husky install"
   },
   "keywords": [],

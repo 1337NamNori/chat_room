@@ -46,20 +46,20 @@ const io = require('socket.io')(http);
 const PORT = process.env.PORT || 5000;
 
 // Routes
-const authRouter = require('./routes/auth.js');
+const authRouter = require('./server/routes/auth.js');
 
 app.use('/', authRouter);
 
 // Database
-const db = require('./config/db/index.js');
+const db = require('./server/config/db/index.js');
 db.connect();
 
 // Helper Functions
-const { addUser, getUser, removeUser } = require('./helpers.js');
+const { addUser, getUser, removeUser } = require('./server/helpers.js');
 
 // Import Models
-const Room = require('./models/Room.js');
-const Message = require('./models/Message.js');
+const Room = require('./server/models/Room.js');
+const Message = require('./server/models/Message.js');
 
 // Socket.io Logic
 io.on('connection', (socket) => {
