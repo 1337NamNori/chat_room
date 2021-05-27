@@ -12,12 +12,12 @@ const whitelist = [
 ];
 const corsOptions = {
     origin: function (origin, callback) {
-        console.log('** Origin of request ' + origin);
+        // console.log('** Origin of request ' + origin);
         if (whitelist.indexOf(origin) !== -1 || !origin) {
-            console.log('Origin acceptable');
+            // console.log('Origin acceptable');
             callback(null, true);
         } else {
-            console.log('Origin rejected');
+            // console.log('Origin rejected');
             callback(new Error('Not allowed by CORS'));
         }
     },
@@ -49,7 +49,7 @@ const PORT = process.env.PORT || 5000;
 // Routes
 const authRouter = require('./server/routes/auth.js');
 
-app.use('/', authRouter);
+app.use('/auth', authRouter);
 
 // Database
 const db = require('./server/config/db/index.js');

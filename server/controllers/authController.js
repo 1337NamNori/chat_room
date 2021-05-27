@@ -42,6 +42,7 @@ const alertError = (err) => {
 
 module.exports = {
     async login(req, res, next) {
+        console.log('login');
         const { username, password } = req.body;
         try {
             const user = await User.login(username, password);
@@ -57,6 +58,7 @@ module.exports = {
         }
     },
     async signup(req, res, next) {
+        console.log('signup');
         const { username, email, password } = req.body;
         try {
             const user = await User.create({ username, email, password });
@@ -71,7 +73,8 @@ module.exports = {
             res.status(400).json({ errors });
         }
     },
-    verify(req, res, next) {
+    async verify(req, res, next) {
+        console.log('verify');
         const token = req.cookies.jwt;
         if (token) {
             jwt.verify(token, 'secret chatroom', async (err, decodedToken) => {
@@ -80,7 +83,8 @@ module.exports = {
                     next();
                 } else {
                     const user = await User.findById(decodedToken.id);
-                    res.json({ user });
+                    console.log(user);
+                    res.json(user);
                     next();
                 }
             });
@@ -88,7 +92,8 @@ module.exports = {
             next();
         }
     },
-    logout(req, res, next) {
+    async logout(req, res, next) {
+        console.log('logout');
         res.cookie('jwt', '', { maxAge: 1 });
         res.status(200).json({ logout: true });
     },
