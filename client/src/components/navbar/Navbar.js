@@ -8,9 +8,12 @@ export default function Navbar() {
 
     const logout = async () => {
         try {
-            const res = await fetch('/logout', {
-                credentials: 'include',
+            const res = await fetch('/auth/logout', {
+                method: 'POST',
+                // credentials: 'include',
             });
+            const data = await res.json();
+            console.log(data);
             setUser(null);
         } catch (err) {
             console.log(err);

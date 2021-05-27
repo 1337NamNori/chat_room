@@ -18,7 +18,7 @@ export default function Signup() {
         setEmailError('');
         setPasswordError('');
         try {
-            const res = await fetch('/signup', {
+            const res = await fetch('/auth/signup', {
                 method: 'POST',
                 credentials: 'include',
                 body: JSON.stringify({ username, password, email }),

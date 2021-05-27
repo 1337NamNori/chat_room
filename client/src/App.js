@@ -13,13 +13,15 @@ function App() {
     useEffect(() => {
         const verify = async () => {
             try {
-                const res = await fetch('/verify', {
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' },
+                const res = await fetch('/auth/verify', {
+                    method: 'POST',
+                    // credentials: 'include',
                 });
+                console.log(res);
                 const data = await res.json();
-                if (data.user) {
-                    setUser(data.user);
+                console.log(data);
+                if (data) {
+                    setUser(data);
                 }
             } catch (err) {
                 console.log(err);

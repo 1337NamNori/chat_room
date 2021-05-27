@@ -103,7 +103,7 @@
                     x = O.roomID,
                     f = O.roomName;
                 Object(c.useEffect)(function () {
-                    S = h()('localhost:5000');
+                    S = h()('http://localhost:5000/');
                     var e = t ? t.username : '',
                         s = t ? t._id : '';
                     e &&
@@ -204,7 +204,7 @@
                     r = Object(j.a)(a, 2),
                     i = r[0],
                     o = r[1],
-                    l = 'localhost:5000';
+                    l = 'http://localhost:5000/';
                 Object(c.useEffect)(
                     function () {
                         return (
@@ -381,7 +381,7 @@
                     ],
                 });
             }
-            function I() {
+            function P() {
                 var e = Object(c.useContext)(b),
                     t = e.user,
                     s = e.setUser,
@@ -398,11 +398,8 @@
                                                         (e.prev = 0),
                                                         (e.next = 3),
                                                         fetch(
-                                                            'http://localhost:5000/logout',
-                                                            {
-                                                                credentials:
-                                                                    'include',
-                                                            },
+                                                            'http://localhost:5000/auth/logout',
+                                                            { method: 'POST' },
                                                         )
                                                     );
                                                 case 3:
@@ -474,7 +471,7 @@
                     ],
                 });
             }
-            function L() {
+            function I() {
                 var e = Object(c.useContext)(b),
                     t = e.user,
                     s = e.setUser,
@@ -510,7 +507,7 @@
                                                         (e.prev = 3),
                                                         (e.next = 6),
                                                         fetch(
-                                                            'http://localhost:5000/login',
+                                                            'http://localhost:5000/auth/login',
                                                             {
                                                                 method: 'POST',
                                                                 credentials:
@@ -658,7 +655,7 @@
                           ],
                       });
             }
-            function P() {
+            function T() {
                 var e = Object(c.useContext)(b),
                     t = e.user,
                     s = e.setUser,
@@ -684,9 +681,9 @@
                     D = k[1],
                     E = Object(c.useState)(''),
                     F = Object(j.a)(E, 2),
-                    I = F[0],
-                    L = F[1],
-                    P = (function () {
+                    P = F[0],
+                    I = F[1],
+                    T = (function () {
                         var e = Object(l.a)(
                             o.a.mark(function e(t) {
                                 var c, n;
@@ -698,12 +695,12 @@
                                                     return (
                                                         t.preventDefault(),
                                                         h(''),
-                                                        L(''),
+                                                        I(''),
                                                         y(''),
                                                         (e.prev = 4),
                                                         (e.next = 7),
                                                         fetch(
-                                                            'http://localhost:5000/signup',
+                                                            'http://localhost:5000/auth/signup',
                                                             {
                                                                 method: 'POST',
                                                                 credentials:
@@ -733,7 +730,7 @@
                                                 case 10:
                                                     (n = e.sent).errors &&
                                                         (h(n.errors.username),
-                                                        L(n.errors.email),
+                                                        I(n.errors.email),
                                                         y(n.errors.password)),
                                                         n.user && s(n.user),
                                                         (e.next = 18);
@@ -770,7 +767,7 @@
                                   className: 'row',
                                   children: Object(p.jsxs)('form', {
                                       className: 'col s12',
-                                      onSubmit: P,
+                                      onSubmit: T,
                                       children: [
                                           Object(p.jsx)('div', {
                                               className: 'row',
@@ -831,7 +828,7 @@
                                                       }),
                                                       Object(p.jsx)('p', {
                                                           className: 'red-text',
-                                                          children: I,
+                                                          children: P,
                                                       }),
                                                   ],
                                               }),
@@ -885,7 +882,7 @@
                           ],
                       });
             }
-            var T = function () {
+            var L = function () {
                     var e = Object(c.useState)(null),
                         t = Object(j.a)(e, 2),
                         s = t[0],
@@ -905,44 +902,40 @@
                                                                 (e.prev = 0),
                                                                 (e.next = 3),
                                                                 fetch(
-                                                                    'http://localhost:5000/verify',
+                                                                    'http://localhost:5000/auth/verify',
                                                                     {
-                                                                        credentials:
-                                                                            'include',
-                                                                        headers:
-                                                                            {
-                                                                                'Content-Type':
-                                                                                    'application/json',
-                                                                            },
+                                                                        method: 'POST',
                                                                     },
                                                                 )
                                                             );
                                                         case 3:
                                                             return (
                                                                 (t = e.sent),
-                                                                (e.next = 6),
+                                                                console.log(t),
+                                                                (e.next = 7),
                                                                 t.json()
                                                             );
-                                                        case 6:
-                                                            (s = e.sent) &&
-                                                                n(s),
-                                                                (e.next = 13);
+                                                        case 7:
+                                                            (s = e.sent),
+                                                                console.log(s),
+                                                                s && n(s),
+                                                                (e.next = 15);
                                                             break;
-                                                        case 10:
-                                                            (e.prev = 10),
+                                                        case 12:
+                                                            (e.prev = 12),
                                                                 (e.t0 =
                                                                     e.catch(0)),
                                                                 console.log(
                                                                     e.t0,
                                                                 );
-                                                        case 13:
+                                                        case 15:
                                                         case 'end':
                                                             return e.stop();
                                                     }
                                             },
                                             e,
                                             null,
-                                            [[0, 10]],
+                                            [[0, 12]],
                                         );
                                     }),
                                 );
@@ -957,7 +950,7 @@
                                 children: Object(p.jsxs)(b.Provider, {
                                     value: { user: s, setUser: n },
                                     children: [
-                                        Object(p.jsx)(I, {}),
+                                        Object(p.jsx)(P, {}),
                                         Object(p.jsxs)(d.d, {
                                             children: [
                                                 Object(p.jsx)(d.b, {
@@ -967,11 +960,11 @@
                                                 }),
                                                 Object(p.jsx)(d.b, {
                                                     path: '/login',
-                                                    component: L,
+                                                    component: I,
                                                 }),
                                                 Object(p.jsx)(d.b, {
                                                     path: '/signup',
-                                                    component: P,
+                                                    component: T,
                                                 }),
                                                 Object(p.jsx)(d.b, {
                                                     path: '/chat/:roomID/:roomName',
@@ -1002,7 +995,7 @@
                 };
             r.a.render(
                 Object(p.jsx)(n.a.StrictMode, {
-                    children: Object(p.jsx)(T, {}),
+                    children: Object(p.jsx)(L, {}),
                 }),
                 document.getElementById('root'),
             ),
@@ -1011,4 +1004,4 @@
     },
     [[369, 1, 2]],
 ]);
-//# sourceMappingURL=main.3c4ed074.chunk.js.map
+//# sourceMappingURL=main.5d5e6d49.chunk.js.map
