@@ -13,7 +13,7 @@ export default function Chat() {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const { roomID, roomName } = useParams();
-    const ENDPOINT = 'localhost:5000';
+    const ENDPOINT = '/';
     useEffect(() => {
         socket = io(ENDPOINT);
         const username = user ? user.username : '';

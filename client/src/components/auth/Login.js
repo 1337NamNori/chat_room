@@ -16,7 +16,7 @@ export default function Login() {
         setUsernameError('');
         setPasswordError('');
         try {
-            const res = await fetch('http://localhost:5000/login', {
+            const res = await fetch('/login', {
                 method: 'POST',
                 credentials: 'include',
                 body: JSON.stringify({ username, password }),
