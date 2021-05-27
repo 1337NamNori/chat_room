@@ -12,7 +12,8 @@ export default function Navbar() {
                 credentials: 'include',
             });
             const data = await res.json();
-            if (data.logout) setUser(null);
+            console.log(data);
+            setUser(null);
         } catch (err) {
             console.log(err);
         }
