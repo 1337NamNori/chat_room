@@ -80,7 +80,7 @@ module.exports = {
                     next();
                 } else {
                     const user = await User.findById(decodedToken.id);
-                    res.json(user);
+                    res.json({ user });
                     next();
                 }
             });

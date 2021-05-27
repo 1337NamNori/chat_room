@@ -11,8 +11,6 @@ export default function Navbar() {
             const res = await fetch('/logout', {
                 credentials: 'include',
             });
-            const data = await res.json();
-            console.log(data);
             setUser(null);
         } catch (err) {
             console.log(err);

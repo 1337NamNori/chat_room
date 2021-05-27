@@ -18,8 +18,8 @@ function App() {
                     headers: { 'Content-Type': 'application/json' },
                 });
                 const data = await res.json();
-                if (data) {
-                    setUser(data);
+                if (data.user) {
+                    setUser(data.user);
                 }
             } catch (err) {
                 console.log(err);
